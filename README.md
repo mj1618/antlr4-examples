@@ -17,6 +17,6 @@ go run .
 ## TypeScript
 
 ```bash
-go mod tidy
-go run .
+yarn install
+yarn dev
 ```
