@@ -83,22 +83,7 @@ func main() {
 	is := antlr.NewInputStream("(/ 48 (* 4 (+ 1 2 3)))")
 	lexer := parser.NewCalcLexer(is)
 	lispParser = parser.NewCalcParser(antlr.NewCommonTokenStream(lexer, 0))
-	// antlr.ParseTreeWalkerDefault.Walk(&CalcListener{}, parser.Program())
-	// parser.Program().Accept(&CalcVisitor{})
 	v := &CalcVisitor{}
-	// fmt.Println("visiting")
-	// v.Visit(lispParser.Program().(*parser.ProgramContext))
-	lispParser.Program().Accept(v)
-
-	// for {
-	// 	tok := lexer.NextToken()
-	// 	if tok.GetTokenType() == antlr.TokenEOF {
-	// 		break
-	// 	}
-	// 	if tok.GetChannel() == antlr.LexerHidden {
-	// 		continue
-	// 	}
-	// 	fmt.Println(tok.GetText())
-	// }
+	v.VisitProgram(lispParser.Program().(*parser.ProgramContext))
 
 }
