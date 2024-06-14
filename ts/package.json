@@ -1,0 +1,19 @@
+{
+  "name": "ebnf-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/app.js",
+    "dev": "npx ts-node ./src/app.ts"
+  },
+  "dependencies": {
+    "@mkbabb/parse-that": "file:../parse-that/typescript",
+    "@types/node": "^20.14.2",
+    "antlr4": "^4.13.1-patch-1",
+    "ebnf": "^1.9.1",
+    "ebnf-parser": "^0.1.10",
+    "typescript": "^5.4.5"
+  }
+}
