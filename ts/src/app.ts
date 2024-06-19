@@ -31,13 +31,10 @@ class Visitor extends CalcVisitor<number> {
     });
 
     const operator = children?.[0].getText();
-    console.log(
-      numbers,
-      operator,
-      children?.map((c) => c.getText())
-    );
+    // console.log(children?.[0]);
+    const operand = ctx._operand.text;
 
-    switch (operator) {
+    switch (operand) {
       case "+":
         return numbers.reduce((acc, curr) => acc + curr, 0);
       case "-":

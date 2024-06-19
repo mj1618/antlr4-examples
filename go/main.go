@@ -34,6 +34,23 @@ func (v *CalcVisitor) VisitProgram(ctx *parser.ProgramContext) interface{} {
 	return nil
 }
 
+func reduce(numbers []int, operand string, acc int) int {
+	sum := acc
+	for _, num := range numbers {
+		switch operand {
+		case "+":
+			sum += num
+		case "-":
+			sum -= num
+		case "*":
+			sum *= num
+		case "/":
+			sum /= num
+		}
+	}
+	return sum
+}
+
 func (v *CalcVisitor) VisitExpression(ctx *parser.ExpressionContext) interface{} {
 	// fmt.Println("VisitExpression")
 
@@ -43,16 +60,16 @@ func (v *CalcVisitor) VisitExpression(ctx *parser.ExpressionContext) interface{}
 		child := ctx.GetChild(idx)
 		// fmt.Println(reflect.TypeOf(child))
 
-		switch child.(type) {
+		switch child := child.(type) {
 		case *parser.ExpressionContext:
-			res := v.VisitExpression(child.(*parser.ExpressionContext))
+			res := v.VisitExpression(child)
 			// fmt.Println(res.(int))
 			numberList = append(numberList, res.(int))
 		case *antlr.TerminalNodeImpl:
 			// fmt.Println(child.(*antlr.TerminalNodeImpl).GetSymbol().GetText())
-			if child.(*antlr.TerminalNodeImpl).GetSymbol().GetTokenType() == parser.CalcParserNUMBER {
+			if child.GetSymbol().GetTokenType() == parser.CalcParserNUMBER {
 
-				number, _ := strconv.Atoi(child.(*antlr.TerminalNodeImpl).GetSymbol().GetText())
+				number, _ := strconv.Atoi(child.GetSymbol().GetText())
 
 				numberList = append(numberList, number)
 			}
@@ -62,15 +79,17 @@ func (v *CalcVisitor) VisitExpression(ctx *parser.ExpressionContext) interface{}
 		}
 	}
 
-	switch ctx.IDENTIFIER(0).GetSymbol().GetText() {
+	operand := ctx.operand().GetText()
+
+	switch operand {
 	case "+":
-		return numberList[0] + numberList[1] + numberList[2]
+		return reduce(numberList, operand, 0)
 	case "-":
-		return numberList[0] - numberList[1]
+		return reduce(numberList, operand, 0)
 	case "*":
-		return numberList[0] * numberList[1]
+		return reduce(numberList, operand, 0)
 	case "/":
-		return numberList[0] / numberList[1]
+		return reduce(numberList[1:], operand, numberList[0])
 
 	default:
 		return nil
