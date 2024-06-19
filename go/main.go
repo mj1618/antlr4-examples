@@ -79,7 +79,7 @@ func (v *CalcVisitor) VisitExpression(ctx *parser.ExpressionContext) interface{}
 		}
 	}
 
-	operand := ctx.operand().GetText()
+	operand := ctx.GetOperand().GetText()
 
 	switch operand {
 	case "+":
