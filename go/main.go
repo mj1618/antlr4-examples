@@ -80,14 +80,14 @@ func (v *CalcVisitor) VisitExpression(ctx *parser.ExpressionContext) interface{}
 	}
 
 	operand := ctx.GetOperand().GetText()
-
+	fmt.Println(numberList, operand)
 	switch operand {
 	case "+":
 		return reduce(numberList, operand, 0)
 	case "-":
 		return reduce(numberList, operand, 0)
 	case "*":
-		return reduce(numberList, operand, 0)
+		return reduce(numberList, operand, 1)
 	case "/":
 		return reduce(numberList[1:], operand, numberList[0])
 
